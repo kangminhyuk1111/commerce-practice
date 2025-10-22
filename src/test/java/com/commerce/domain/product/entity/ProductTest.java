@@ -26,9 +26,10 @@ class ProductTest {
       final String description = "신규 발매한 노트북 입니다.";
       final BigDecimal price = BigDecimal.valueOf(1000000);
       final String imagePathUrl = "http://test-image-path:8080";
+      final String detailedDescription = "발매한 노트북의 상세 설명 페이지 입니다.";
 
       // when
-      final Product product = new Product(name, description, price, imagePathUrl);
+      final Product product = new Product(name, description, price, imagePathUrl, detailedDescription);
 
       // then
       assertThat(product.getId()).isNull();

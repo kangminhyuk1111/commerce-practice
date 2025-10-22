@@ -17,15 +17,15 @@ class ProductCategoryTest {
     @Test
     void 상품_카테고리_생성() {
       // given
-      Product product = new Product("노트북", "설명", BigDecimal.valueOf(1000000), "url");
+      Product product = new Product("노트북", "설명", BigDecimal.valueOf(1000000), "url", "url html");
       Category category = new Category("전자제품");
 
       // when
       ProductCategory productCategory = new ProductCategory(product, category);
 
       // then
-      assertThat(productCategory.getProduct()).isEqualTo(product);
-      assertThat(productCategory.getCategory()).isEqualTo(category);
+      assertThat(productCategory.getProductId()).isEqualTo(product.getId());
+      assertThat(productCategory.getCategoryId()).isEqualTo(category.getId());
     }
   }
 }

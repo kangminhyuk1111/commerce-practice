@@ -3,6 +3,7 @@ package com.commerce.domain.product.repository.impl;
 import com.commerce.domain.product.entity.Product;
 import com.commerce.domain.product.repository.ProductRepository;
 import java.util.Collection;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,10 @@ public class ProductRepositoryImpl implements ProductRepository {
   @Override
   public Page<Product> findByIdIn(final Collection<Long> ids, final Pageable pageable) {
     return jpaProductRepository.findByIdIn(ids, pageable);
+  }
+
+  @Override
+  public Optional<Product> findById(final Long id) {
+    return jpaProductRepository.findById(id);
   }
 }

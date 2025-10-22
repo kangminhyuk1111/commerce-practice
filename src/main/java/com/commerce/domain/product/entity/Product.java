@@ -21,14 +21,17 @@ public class Product extends BaseEntity {
   @Column(nullable = false)
   private String imagePathUrl;
 
+  private String detailedDescription;
+
   public Product() {
   }
 
-  public Product(final String name, final String description, final BigDecimal price, final String imagePathUrl) {
+  public Product(final String name, final String description, final BigDecimal price, final String imagePathUrl, final String detailedDescription) {
     this.name = name;
     this.description = description;
     this.price = price;
     this.imagePathUrl = imagePathUrl;
+    this.detailedDescription = detailedDescription;
   }
 
   public String getName() {
@@ -45,5 +48,9 @@ public class Product extends BaseEntity {
 
   public String getImagePathUrl() {
     return imagePathUrl;
+  }
+
+  public String getDetailedDescription() {
+    return detailedDescription;
   }
 }
