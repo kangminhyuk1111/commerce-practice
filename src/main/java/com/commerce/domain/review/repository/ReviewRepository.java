@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface ReviewRepository {
   List<Review> findByProductId(Long productId);
+  Boolean existByReviewKey(String reviewKey);
+  Review save(Review review);
 }

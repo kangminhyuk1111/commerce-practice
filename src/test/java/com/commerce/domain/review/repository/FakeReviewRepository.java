@@ -14,15 +14,20 @@ public class FakeReviewRepository implements ReviewRepository {
   @Override
   public List<Review> findByProductId(Long productId) {
     return reviews.values().stream()
-        .filter(review -> review.getProductId().equals(productId))
+        .filter(review -> review.getTargetId().equals(productId))
         .collect(Collectors.toList());
   }
 
-  public void save(Review review) {
+  @Override
+  public Boolean existByReviewKey(final String reviewKey) {
+    return null;
+  }
+
+  public Review save(Review review) {
     if (review.getId() == null) {
       setId(review, idSequence++);
     }
-    reviews.put(review.getId(), review);
+    return reviews.put(review.getId(), review);
   }
 
   public void clear() {

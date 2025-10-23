@@ -18,4 +18,14 @@ public class ReviewRepositoryImpl implements ReviewRepository {
   public List<Review> findByProductId(final Long productId) {
     return jpaReviewRepository.findByProductId(productId);
   }
+
+  @Override
+  public Boolean existByReviewKey(final String reviewKey) {
+    return jpaReviewRepository.existsByReviewKey(reviewKey);
+  }
+
+  @Override
+  public Review save(final Review review) {
+    return jpaReviewRepository.save(review);
+  }
 }

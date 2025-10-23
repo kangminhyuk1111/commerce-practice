@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface JpaReviewRepository extends JpaRepository<Review, Long> {
   List<Review> findByProductId(Long productId);
+
+  Boolean existsByReviewKey(String reviewKey);
 }

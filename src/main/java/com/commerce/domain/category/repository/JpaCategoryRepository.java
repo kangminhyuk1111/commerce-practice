@@ -1,10 +1,10 @@
 package com.commerce.domain.category.repository;
 
 import com.commerce.domain.category.entity.Category;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository {
-  List<Category> findAll();
+public interface JpaCategoryRepository extends JpaRepository<Category, Long> {
+
 }
