@@ -4,6 +4,8 @@ import com.commerce.domain.product.entity.Product;
 import com.commerce.domain.product.entity.ProductCategory;
 import com.commerce.domain.product.repository.ProductCategoryRepository;
 import com.commerce.domain.product.repository.ProductRepository;
+import com.commerce.support.error.CoreException;
+import com.commerce.support.error.ErrorType;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +28,7 @@ public class ProductService {
   * 만약 성능적인 개선이 필요하다면 JPQL 쿼리를 짜서 조회부분을 변경하고 페이징 처리
   * 오히려 2단계 조회가 코드레벨에서 가독성이 더 높은 것 같다고 느꼈음
   * */
-  public Page<Product> findProductsByCategoryIds(List<Long> categoryIds, final Pageable pageable) {
+  public Page<Product> findProductsByCategoryIds(final List<Long> categoryIds, final Pageable pageable) {
     // 카테고리 아무것도 선택 안하면 모든 상품 조회하도록 구현
     if (categoryIds == null || categoryIds.isEmpty()) {
       return productRepository.findAll(pageable);
@@ -35,7 +37,7 @@ public class ProductService {
     final List<ProductCategory> productCategories = productCategoryRepository.findByCategoryIdIn(categoryIds);
 
     List<Long> productIds = productCategories.stream()
-        .map(pc -> pc.getProduct().getId())
+        .map(ProductCategory::getProductId)
         .distinct()
         .toList();
 
@@ -44,5 +46,9 @@ public class ProductService {
     }
 
     return productRepository.findByIdIn(productIds, pageable);
+  }
+
+  public Product findProductById(final Long productId) {
+    return productRepository.findById(productId).orElseThrow(() -> new CoreException(ErrorType.PRODUCT_NOT_FOUND));
   }
 }

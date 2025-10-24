@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +46,11 @@ public class FakeProductRepository implements ProductRepository {
 
     List<Product> pageContent = products.subList(start, end);
     return new PageImpl<>(pageContent, pageable, products.size());
+  }
+
+  @Override
+  public Optional<Product> findById(final Long id) {
+    return Optional.of(store.get(id));
   }
 
   public <S extends Product> S save(S entity) {
