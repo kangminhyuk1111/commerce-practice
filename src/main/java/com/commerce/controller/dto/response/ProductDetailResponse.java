@@ -1,7 +1,7 @@
 package com.commerce.controller.dto.response;
 
 import com.commerce.domain.product.entity.Product;
-import com.commerce.domain.review.entity.RateSummary;
+import com.commerce.domain.review.dto.RateSummary;
 import java.math.BigDecimal;
 
 public record ProductDetailResponse(

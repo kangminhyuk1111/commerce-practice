@@ -1,7 +1,6 @@
 package com.commerce.domain.review.support.validate;
 
-import com.commerce.domain.order.entity.Order;
-import com.commerce.domain.order.repository.OrderRepository;
+import com.commerce.domain.review.entity.Review;
 import com.commerce.domain.review.entity.ReviewTargetType;
 import com.commerce.domain.review.repository.ReviewRepository;
 import com.commerce.domain.review.support.key.ReviewKey;
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Component;
 public class ReviewPolicyValidator {
 
   private final ReviewRepository reviewRepository;
-  private final OrderRepository orderRepository;
   private final ReviewKeyGenerator reviewKeyGenerator;
 
-  public ReviewPolicyValidator(final ReviewRepository reviewRepository, final OrderRepository orderRepository, final ReviewKeyGenerator reviewKeyGenerator) {
+  public ReviewPolicyValidator(final ReviewRepository reviewRepository,
+      final ReviewKeyGenerator reviewKeyGenerator) {
     this.reviewRepository = reviewRepository;
-    this.orderRepository = orderRepository;
     this.reviewKeyGenerator = reviewKeyGenerator;
   }
 
@@ -29,23 +27,31 @@ public class ReviewPolicyValidator {
 
     if (reviewTargetType == ReviewTargetType.PRODUCT) {
       // 구매 여부
-      // TODO 주문 추가시, 주문이 존재하는지 여부와 userId, targetId 기준으로 일치하는지 검증
+      // TODO 주문 추가시, 주문이 존재하는지 여부와 userId, targetId 기준으로 일치 여부 확인
+      validatePurchaseExistence(userId, targetId);
       // 중복 리뷰 여부
       validateReviewKey(reviewKey);
       // 리뷰 작성 기간
+      // TODO 주문을 조회하여 주문상태가 완료이고 주문생성일이 30일 이내인 경우 리뷰 작성 가능
       validateWriteReviewPeriod(userId, targetId);
 
       return reviewKey;
     }
 
-    throw new CoreException(ErrorType.INTERNAL_SERVER_ERROR);
+    throw new CoreException(ErrorType.REVIEW_TARGET_TYPE_ERROR);
   }
 
-  private void validatePurchaseExistence(Long userId, Long targetId) {
-    boolean hasPurchase = orderRepository.existsByUserIdAndProductId(userId, targetId);
-    if (!hasPurchase) {
-      throw new CoreException(ErrorType.ORDER_NOT_PURCHASED);
+  public void updateValidate(final Long reviewId, final Long userId) {
+    final Review review = reviewRepository.findByIdAndUserId(reviewId, userId)
+        .orElseThrow(() -> new CoreException(ErrorType.REVIEW_NOT_FOUND));
+
+    if (review.getCreatedAt().plusDays(30).isBefore(LocalDateTime.now())) {
+      throw new CoreException(ErrorType.REVIEW_WRITE_DATE_EXPIRED);
     }
+  }
+
+  private void validatePurchaseExistence(final Long userId, final Long targetId) {
+
   }
 
   private void validateReviewKey(final ReviewKey reviewKey) {
@@ -55,11 +61,6 @@ public class ReviewPolicyValidator {
   }
 
   private void validateWriteReviewPeriod(final Long userId, final Long targetId) {
-    final Order order = orderRepository.findByUserIdAndProductId(userId, targetId)
-        .orElseThrow(() -> new CoreException(ErrorType.ORDER_NOT_FOUND));
 
-    if (LocalDateTime.now().isAfter(order.getCreatedAt().plusDays(30))) {
-      throw new CoreException(ErrorType.REVIEW_ALREADY_EXIST);
-    }
   }
 }

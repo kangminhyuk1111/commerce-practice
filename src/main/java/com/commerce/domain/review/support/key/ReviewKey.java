@@ -17,4 +17,8 @@ public class ReviewKey {
   public String getReviewKey() {
     return String.format("%s-%d-%d", reviewTargetType.name(), targetId, userId);
   }
+
+  public Long getUserId() {
+    return userId;
+  }
 }

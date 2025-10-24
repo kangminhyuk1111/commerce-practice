@@ -1,5 +1,6 @@
 package com.commerce.domain.review.entity;
 
+import com.commerce.domain.review.dto.ReviewContent;
 import com.commerce.support.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +44,12 @@ public class Review extends BaseEntity {
     this.rating = rating;
   }
 
+  public void updateContent(final ReviewContent reviewContent) {
+    this.title = reviewContent.title();
+    this.description = reviewContent.description();
+    this.rating = reviewContent.rating();
+  }
+
   public Long getTargetId() {
     return targetId;
   }
@@ -69,5 +76,18 @@ public class Review extends BaseEntity {
 
   public Integer getRating() {
     return rating.getValue();
+  }
+
+  @Override
+  public String toString() {
+    return "Review{" +
+        "targetId=" + targetId +
+        ", reviewKey='" + reviewKey + '\'' +
+        ", reviewTargetType=" + reviewTargetType +
+        ", userId=" + userId +
+        ", title='" + title + '\'' +
+        ", description='" + description + '\'' +
+        ", rating=" + rating +
+        '}';
   }
 }

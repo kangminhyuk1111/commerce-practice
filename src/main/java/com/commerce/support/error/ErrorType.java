@@ -7,10 +7,12 @@ public enum ErrorType {
 
   PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.E404, "상품을 찾을 수 없습니다."),
 
+  REVIEW_TARGET_TYPE_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "잘못된 리뷰 작성 타입입니다."),
+  REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.E404, "리뷰를 찾을 수 없습니다."),
   REVIEW_ALREADY_EXIST(HttpStatus.BAD_REQUEST, ErrorCode.REVIEW_001, "리뷰를 이미 작성하셨습니다."),
   REVIEW_WRITE_DATE_EXPIRED(HttpStatus.BAD_REQUEST, ErrorCode.REVIEW_002, "리뷰를 작성 가능한 기간이 넘었습니다. 리뷰를 작성하실 수 없습니다."),
-  ORDER_NOT_PURCHASED(HttpStatus.BAD_REQUEST, ErrorCode.REVIEW_003, "구매하지 않은 상품에 리뷰를 작성할 수 없습니다"),
 
+  ORDER_NOT_PURCHASED(HttpStatus.BAD_REQUEST, ErrorCode.REVIEW_003, "구매하지 않은 상품에 리뷰를 작성할 수 없습니다"),
   ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.ORDER_001, "존재하지 않는 주문 입니다.");
 
   private final HttpStatus status;
