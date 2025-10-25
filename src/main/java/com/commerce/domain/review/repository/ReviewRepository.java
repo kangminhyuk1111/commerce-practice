@@ -1,7 +1,7 @@
 package com.commerce.domain.review.repository;
 
-import com.commerce.domain.review.entity.Review;
-import com.commerce.domain.review.entity.ReviewTargetType;
+import com.commerce.domain.review.domain.Review;
+import com.commerce.domain.review.domain.ReviewTargetType;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

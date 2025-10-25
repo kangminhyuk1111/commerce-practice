@@ -1,7 +1,7 @@
 package com.commerce.controller.dto.request;
 
 import com.commerce.domain.review.dto.ReviewContent;
-import com.commerce.domain.review.entity.Rating;
+import com.commerce.domain.review.domain.Rating;
 
 public record UpdateReviewRequest(
   Long userId, String title, String description, Rating rating

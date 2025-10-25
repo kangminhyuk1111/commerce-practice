@@ -1,10 +1,9 @@
-package com.commerce.domain.review.support.validate;
+package com.commerce.domain.review.application;
 
-import com.commerce.domain.review.entity.Review;
-import com.commerce.domain.review.entity.ReviewTargetType;
+import com.commerce.domain.review.domain.Review;
+import com.commerce.domain.review.domain.ReviewTargetType;
 import com.commerce.domain.review.repository.ReviewRepository;
-import com.commerce.domain.review.support.key.ReviewKey;
-import com.commerce.domain.review.support.key.ReviewKeyGenerator;
+import com.commerce.domain.review.domain.ReviewKey;
 import com.commerce.support.error.CoreException;
 import com.commerce.support.error.ErrorType;
 import java.time.LocalDateTime;

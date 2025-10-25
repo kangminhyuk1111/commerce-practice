@@ -7,7 +7,7 @@ import com.commerce.controller.dto.response.ProductResponse;
 import com.commerce.domain.product.entity.Product;
 import com.commerce.domain.product.service.ProductService;
 import com.commerce.domain.review.dto.RateSummary;
-import com.commerce.domain.review.service.ReviewService;
+import com.commerce.domain.review.application.ReviewService;
 import com.commerce.support.response.ApiResponse;
 import java.util.List;
 import org.springframework.data.domain.Page;

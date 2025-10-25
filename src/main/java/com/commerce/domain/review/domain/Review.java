@@ -1,4 +1,4 @@
-package com.commerce.domain.review.entity;
+package com.commerce.domain.review.domain;
 
 import com.commerce.domain.review.dto.ReviewContent;
 import com.commerce.support.entity.BaseEntity;

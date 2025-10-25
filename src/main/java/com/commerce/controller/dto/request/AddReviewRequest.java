@@ -2,8 +2,8 @@ package com.commerce.controller.dto.request;
 
 import com.commerce.domain.review.dto.ReviewContent;
 import com.commerce.domain.review.dto.ReviewTarget;
-import com.commerce.domain.review.entity.Rating;
-import com.commerce.domain.review.entity.ReviewTargetType;
+import com.commerce.domain.review.domain.Rating;
+import com.commerce.domain.review.domain.ReviewTargetType;
 
 public record AddReviewRequest(
     Long userId,

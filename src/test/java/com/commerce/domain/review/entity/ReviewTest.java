@@ -3,6 +3,9 @@ package com.commerce.domain.review.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.commerce.domain.review.domain.Rating;
+import com.commerce.domain.review.domain.Review;
+import com.commerce.domain.review.domain.ReviewTargetType;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

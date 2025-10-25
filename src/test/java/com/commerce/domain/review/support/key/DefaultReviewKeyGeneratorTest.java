@@ -2,7 +2,10 @@ package com.commerce.domain.review.support.key;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.commerce.domain.review.entity.ReviewTargetType;
+import com.commerce.domain.review.application.DefaultReviewKeyGenerator;
+import com.commerce.domain.review.application.ReviewKeyGenerator;
+import com.commerce.domain.review.domain.ReviewKey;
+import com.commerce.domain.review.domain.ReviewTargetType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
