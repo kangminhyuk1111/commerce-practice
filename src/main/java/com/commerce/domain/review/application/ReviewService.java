@@ -1,13 +1,10 @@
-package com.commerce.domain.review.service;
+package com.commerce.domain.review.application;
 
-import com.commerce.controller.dto.request.PageSize;
 import com.commerce.domain.review.dto.RateSummary;
 import com.commerce.domain.review.dto.ReviewContent;
 import com.commerce.domain.review.dto.ReviewTarget;
-import com.commerce.domain.review.entity.Review;
-import com.commerce.domain.review.support.persistence.ReviewManager;
-import com.commerce.domain.review.support.validate.ReviewPolicyValidator;
-import com.commerce.domain.review.support.key.ReviewKey;
+import com.commerce.domain.review.domain.Review;
+import com.commerce.domain.review.domain.ReviewKey;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

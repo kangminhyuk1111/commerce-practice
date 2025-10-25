@@ -2,6 +2,7 @@ package com.commerce.domain.review.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.commerce.domain.review.domain.Rating;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

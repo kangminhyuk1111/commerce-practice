@@ -1,4 +1,4 @@
-package com.commerce.domain.review.entity;
+package com.commerce.domain.review.domain;
 
 public enum ReviewTargetType {
   PRODUCT,

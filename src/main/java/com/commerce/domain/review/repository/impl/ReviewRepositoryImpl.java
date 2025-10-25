@@ -1,7 +1,7 @@
 package com.commerce.domain.review.repository.impl;
 
-import com.commerce.domain.review.entity.Review;
-import com.commerce.domain.review.entity.ReviewTargetType;
+import com.commerce.domain.review.domain.Review;
+import com.commerce.domain.review.domain.ReviewTargetType;
 import com.commerce.domain.review.repository.ReviewRepository;
 import java.util.List;
 import java.util.Optional;

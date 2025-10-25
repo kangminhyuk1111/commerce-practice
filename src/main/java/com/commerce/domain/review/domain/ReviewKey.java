@@ -1,6 +1,4 @@
-package com.commerce.domain.review.support.key;
-
-import com.commerce.domain.review.entity.ReviewTargetType;
+package com.commerce.domain.review.domain;
 
 public class ReviewKey {
 

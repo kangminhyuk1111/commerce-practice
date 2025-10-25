@@ -1,6 +1,7 @@
-package com.commerce.domain.review.support.key;
+package com.commerce.domain.review.application;
 
-import com.commerce.domain.review.entity.ReviewTargetType;
+import com.commerce.domain.review.domain.ReviewKey;
+import com.commerce.domain.review.domain.ReviewTargetType;
 import org.springframework.stereotype.Component;
 
 @Component

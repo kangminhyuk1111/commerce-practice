@@ -1,10 +1,10 @@
-package com.commerce.domain.review.support.persistence;
+package com.commerce.domain.review.application;
 
 import com.commerce.domain.review.dto.ReviewContent;
 import com.commerce.domain.review.dto.ReviewTarget;
-import com.commerce.domain.review.entity.Review;
+import com.commerce.domain.review.domain.Review;
 import com.commerce.domain.review.repository.ReviewRepository;
-import com.commerce.domain.review.support.key.ReviewKey;
+import com.commerce.domain.review.domain.ReviewKey;
 import com.commerce.support.error.CoreException;
 import com.commerce.support.error.ErrorType;
 import java.util.List;

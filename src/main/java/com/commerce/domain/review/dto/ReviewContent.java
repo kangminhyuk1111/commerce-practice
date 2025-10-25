@@ -1,6 +1,6 @@
 package com.commerce.domain.review.dto;
 
-import com.commerce.domain.review.entity.Rating;
+import com.commerce.domain.review.domain.Rating;
 
 public record ReviewContent(String title, String description, Rating rating) {
 }

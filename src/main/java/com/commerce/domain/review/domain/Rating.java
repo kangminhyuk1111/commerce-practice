@@ -1,4 +1,4 @@
-package com.commerce.domain.review.entity;
+package com.commerce.domain.review.domain;
 
 public enum Rating {
   ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5);

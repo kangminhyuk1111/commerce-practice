@@ -1,7 +1,6 @@
 package com.commerce.controller.dto.response;
 
-import com.commerce.domain.review.entity.Rating;
-import com.commerce.domain.review.entity.Review;
+import com.commerce.domain.review.domain.Review;
 
 public record ReviewResponse(String title, String description, Integer rating) {
   public static ReviewResponse of(final Review review) {
