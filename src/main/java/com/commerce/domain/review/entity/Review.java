@@ -1,18 +1,26 @@
 package com.commerce.domain.review.entity;
 
-import com.commerce.domain.product.entity.Product;
+import com.commerce.domain.review.dto.ReviewContent;
 import com.commerce.support.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 public class Review extends BaseEntity {
 
-  @ManyToOne(optional = false)
-  @JoinColumn(name = "product_id", nullable = false)
-  private Product product;
+  @Column(name = "target_id", nullable = false)
+  private Long targetId;
+
+  @Column(nullable = false, unique = true)
+  private String reviewKey;
+
+  @Enumerated(EnumType.STRING)
+  private ReviewTargetType reviewTargetType;
+
+  @Column(nullable = false)
+  private Long userId;
 
   @Column(nullable = false)
   private String title;
@@ -26,15 +34,36 @@ public class Review extends BaseEntity {
   public Review() {
   }
 
-  public Review(final Product product, final String title, final String description, final Rating rating) {
-    this.product = product;
+  public Review(final Long targetId, final String reviewKey, final ReviewTargetType reviewTargetType, final Long userId, final String title, final String description, final Rating rating) {
+    this.targetId = targetId;
+    this.reviewKey = reviewKey;
+    this.reviewTargetType = reviewTargetType;
+    this.userId = userId;
     this.title = title;
     this.description = description;
     this.rating = rating;
   }
 
-  public Long getProductId() {
-    return product.getId();
+  public void updateContent(final ReviewContent reviewContent) {
+    this.title = reviewContent.title();
+    this.description = reviewContent.description();
+    this.rating = reviewContent.rating();
+  }
+
+  public Long getTargetId() {
+    return targetId;
+  }
+
+  public String getReviewKey() {
+    return reviewKey;
+  }
+
+  public ReviewTargetType getReviewTargetType() {
+    return reviewTargetType;
+  }
+
+  public Long getUserId() {
+    return userId;
   }
 
   public String getTitle() {
@@ -47,5 +76,18 @@ public class Review extends BaseEntity {
 
   public Integer getRating() {
     return rating.getValue();
+  }
+
+  @Override
+  public String toString() {
+    return "Review{" +
+        "targetId=" + targetId +
+        ", reviewKey='" + reviewKey + '\'' +
+        ", reviewTargetType=" + reviewTargetType +
+        ", userId=" + userId +
+        ", title='" + title + '\'' +
+        ", description='" + description + '\'' +
+        ", rating=" + rating +
+        '}';
   }
 }

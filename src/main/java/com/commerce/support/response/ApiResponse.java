@@ -2,6 +2,7 @@ package com.commerce.support.response;
 
 import com.commerce.support.error.ErrorMessage;
 import com.commerce.support.error.ErrorType;
+import org.hibernate.mapping.Any;
 
 public class ApiResponse<T> {
   private final ResultType result;
@@ -12,6 +13,10 @@ public class ApiResponse<T> {
     this.result = result;
     this.data = data;
     this.error = error;
+  }
+
+  public static ApiResponse<Any> success() {
+    return new ApiResponse<>(ResultType.SUCCESS, null, null);
   }
 
   public static <T> ApiResponse<T> success(T data) {
