@@ -18,8 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class QnAService {
-
-
+  
   private final QuestionRepository questionRepository;
   private final AnswerRepository answerRepository;
   private final QnAPolicyValidator qnAPolicyValidator;
