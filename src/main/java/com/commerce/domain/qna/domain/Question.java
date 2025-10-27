@@ -37,6 +37,18 @@ public class Question extends BaseEntity {
     this.content = content;
   }
 
+  public void answered() {
+    this.isAnswered = true;
+  }
+
+  public void makeSecret() {
+    this.isSecret = true;
+  }
+
+  public void makePublic() {
+    this.isSecret = false;
+  }
+
   public Long getProductId() {
     return productId;
   }

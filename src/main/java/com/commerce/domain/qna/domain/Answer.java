@@ -18,6 +18,15 @@ public class Answer extends BaseEntity {
   @Column(nullable = false)
   private String content;
 
+  public Answer() {
+  }
+
+  public Answer(Long questionId, Long userId, String content) {
+    this.questionId = questionId;
+    this.userId = userId;
+    this.content = content;
+  }
+
   public Long getQuestionId() {
     return questionId;
   }
