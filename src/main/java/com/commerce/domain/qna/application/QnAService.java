@@ -19,12 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class QnAService {
 
+
   private final QuestionRepository questionRepository;
   private final AnswerRepository answerRepository;
+  private final QnAPolicyValidator qnAPolicyValidator;
 
-  public QnAService(QuestionRepository questionRepository, AnswerRepository answerRepository) {
+  public QnAService(QuestionRepository questionRepository, AnswerRepository answerRepository, QnAPolicyValidator qnAPolicyValidator) {
     this.questionRepository = questionRepository;
     this.answerRepository = answerRepository;
+    this.qnAPolicyValidator = qnAPolicyValidator;
   }
 
   public Page<QnA> findQnAs(Long productId, Pageable pageable) {
@@ -50,7 +53,7 @@ public class QnAService {
     final Question question = questionRepository.findById(questionId)
         .orElseThrow(() -> new CoreException(ErrorType.QUESTION_NOT_FOUND));
 
-    validateQuestionWriter(userId, question);
+    qnAPolicyValidator.validateQuestionWriter(userId, question);
 
     question.update(content);
   }
@@ -60,15 +63,9 @@ public class QnAService {
     final Question question = questionRepository.findById(questionId)
         .orElseThrow(() -> new CoreException(ErrorType.QUESTION_NOT_FOUND));
 
-    validateQuestionWriter(userId, question);
+    qnAPolicyValidator.validateQuestionWriter(userId, question);
 
     questionRepository.delete(question.getId());
-  }
-
-  private void validateQuestionWriter(Long userId, Question question) {
-    if(!question.getUserId().equals(userId)) {
-      throw new CoreException(ErrorType.QUESTION_WRITER_INCORRECT);
-    }
   }
 
   /**
