@@ -13,7 +13,10 @@ public enum ErrorType {
   REVIEW_WRITE_DATE_EXPIRED(HttpStatus.BAD_REQUEST, ErrorCode.REVIEW_002, "리뷰를 작성 가능한 기간이 넘었습니다. 리뷰를 작성하실 수 없습니다."),
 
   ORDER_NOT_PURCHASED(HttpStatus.BAD_REQUEST, ErrorCode.REVIEW_003, "구매하지 않은 상품에 리뷰를 작성할 수 없습니다"),
-  ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.ORDER_001, "존재하지 않는 주문 입니다.");
+  ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.ORDER_001, "존재하지 않는 주문 입니다."),
+
+  QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.QUESTION_001, "존재하지 않는 질문 입니다."),
+  QUESTION_WRITER_INCORRECT(HttpStatus.BAD_REQUEST, ErrorCode.QUESTION_002, "작성자가 일치하지 않습니다.");
 
   private final HttpStatus status;
   private final ErrorCode code;
