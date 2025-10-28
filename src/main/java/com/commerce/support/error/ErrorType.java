@@ -16,7 +16,9 @@ public enum ErrorType {
   ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.ORDER_001, "존재하지 않는 주문 입니다."),
 
   QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.QUESTION_001, "존재하지 않는 질문 입니다."),
-  QUESTION_WRITER_INCORRECT(HttpStatus.BAD_REQUEST, ErrorCode.QUESTION_002, "작성자가 일치하지 않습니다.");
+  QUESTION_WRITER_INCORRECT(HttpStatus.BAD_REQUEST, ErrorCode.QUESTION_002, "작성자가 일치하지 않습니다."),
+
+  FAVORITE_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.FAVORITE_001, "존재하지 않는 찜상품 입니다.");
 
   private final HttpStatus status;
   private final ErrorCode code;
