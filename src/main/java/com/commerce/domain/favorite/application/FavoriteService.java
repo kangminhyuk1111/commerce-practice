@@ -1,5 +1,7 @@
 package com.commerce.domain.favorite.application;
 
+import com.commerce.controller.dto.request.ApplyFavoriteRequest;
+import com.commerce.controller.dto.request.type.ApplyFavoriteType;
 import com.commerce.domain.favorite.domain.Favorite;
 import com.commerce.domain.favorite.repository.FavoriteRepository;
 import com.commerce.support.error.CoreException;
@@ -24,7 +26,15 @@ public class FavoriteService {
   }
 
   @Transactional
-  public void addFavorite(Long userId, Long productId) {
+  public void applyFavorite(Long userId, Long productId, ApplyFavoriteType type) {
+    switch (type) {
+      case FAVORITE -> addFavorite(userId, productId);
+      case UNFAVORITE -> removeFavorite(userId, productId);
+      default -> throw new CoreException(ErrorType.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private void addFavorite(Long userId, Long productId) {
     final Optional<Favorite> found = favoriteRepository.findByUserIdAndProductId(userId, productId);
 
     final Favorite favorite = new Favorite(userId, productId);
@@ -34,8 +44,7 @@ public class FavoriteService {
     }
   }
 
-  @Transactional
-  public void removeFavorite(Long userId, Long productId) {
+  private void removeFavorite(Long userId, Long productId) {
     final Optional<Favorite> found = favoriteRepository.findByUserIdAndProductId(userId, productId);
 
     if (found.isEmpty()) {

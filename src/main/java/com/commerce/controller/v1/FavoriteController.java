@@ -26,7 +26,7 @@ public class FavoriteController {
 
   @GetMapping("/v1/favorites")
   public ApiResponse<PageResponse<FavoriteResponse>> getFavorites(
-      Long userId, // TODO 추후 handlerAdapter를 통해 AuthHandler 추가해서 처리
+      Long userId, // TODO 추후 AuthHandler 추가
       @RequestParam(defaultValue = "0") Integer offset,
       @RequestParam(defaultValue = "5") Integer limit,
       @RequestParam(defaultValue = "createdAt,desc") String sort
@@ -38,13 +38,10 @@ public class FavoriteController {
 
   @PostMapping("/v1/favorites/{productId}")
   public ApiResponse<Any> addFavorites(
-      Long userId, // TODO 추후 handlerAdapter를 통해 AuthHandler 추가해서 처리
+      Long userId, // TODO 추후 AuthHandler 추가
       @RequestBody ApplyFavoriteRequest request
   ) {
-    switch (request.type()) {
-      case FAVORITE -> favoriteService.addFavorite(userId, request.productId());
-      case UNFAVORITE -> favoriteService.removeFavorite(userId, request.productId());
-    }
+    favoriteService.applyFavorite(userId, request.productId(), request.type());
     return ApiResponse.success();
   }
 }

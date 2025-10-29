@@ -22,4 +22,8 @@ public record PageSize(Integer page, Integer size, String sort) {
 
     return PageRequest.of(page, size, Sort.by(direction, property));
   }
+
+  public Pageable toPageable() {
+    return PageRequest.of(page, size, Sort.by(Direction.DESC, "createdAt"));
+  }
 }
