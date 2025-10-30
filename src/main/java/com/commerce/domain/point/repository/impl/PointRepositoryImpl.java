@@ -21,7 +21,13 @@ public class PointRepositoryImpl implements PointRepository {
         .orElseThrow(() -> new CoreException(ErrorType.POINT_NOT_FOUND));
   }
 
+  @Override
   public Point save(Point point) {
     return jpaPointRepository.save(point);
+  }
+
+  @Override
+  public Point findByUserIdWithLock(Long userId) {
+    return jpaPointRepository.findByUserIdWithLock(userId);
   }
 }

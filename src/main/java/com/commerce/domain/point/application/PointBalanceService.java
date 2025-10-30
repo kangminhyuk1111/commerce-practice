@@ -23,7 +23,7 @@ public class PointBalanceService {
   // 포인트 추가
   @Transactional
   public void chargeBalance(Long userId, BigDecimal amount) {
-    final Point point = pointRepository.findByUserId(userId);
+    final Point point = pointRepository.findByUserIdWithLock(userId);
 
     point.charge(amount);
 
@@ -35,7 +35,7 @@ public class PointBalanceService {
   // 포인트 사용, 차감
   @Transactional
   public void useBalance(Long userId, BigDecimal amount) {
-    final Point point = pointRepository.findByUserId(userId);
+    final Point point = pointRepository.findByUserIdWithLock(userId);
 
     point.use(amount);
 

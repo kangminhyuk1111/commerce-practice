@@ -35,6 +35,11 @@ public class FakePointRepository implements PointRepository {
     return point;
   }
 
+  @Override
+  public Point findByUserIdWithLock(Long userId) {
+    return null;
+  }
+
   public void clear() {
     store.clear();
     idSequence.set(1);
