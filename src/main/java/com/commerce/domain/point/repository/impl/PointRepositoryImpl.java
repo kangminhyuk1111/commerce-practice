@@ -20,4 +20,8 @@ public class PointRepositoryImpl implements PointRepository {
     return jpaPointRepository.findByUserId(userId)
         .orElseThrow(() -> new CoreException(ErrorType.POINT_NOT_FOUND));
   }
+
+  public Point save(Point point) {
+    return jpaPointRepository.save(point);
+  }
 }

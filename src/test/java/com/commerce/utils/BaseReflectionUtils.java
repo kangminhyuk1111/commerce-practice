@@ -58,4 +58,11 @@ public class BaseReflectionUtils {
   public static void setUpdatedAt(Object entity, LocalDateTime updatedAt) {
     setField(entity, "updatedAt", updatedAt);
   }
+
+  /**
+   * 엔티티의 transactionAt을 설정합니다. (HistoryEntity용)
+   */
+  public static void setTransactionAt(Object entity, LocalDateTime transactionAt) {
+    setField(entity, "transactionAt", transactionAt);
+  }
 }
