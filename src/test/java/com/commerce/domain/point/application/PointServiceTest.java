@@ -24,8 +24,9 @@ class PointServiceTest {
   void setUp() {
     PointRepository pointRepository = new FakePointRepository();
     PointHistoryRepository pointHistoryRepository = new FakePointHistoryRepository();
+    PointPolicyValidator pointPolicyValidator = new PointPolicyValidator();
     pointService = new PointService(pointRepository, pointHistoryRepository);
-    pointBalanceService = new PointBalanceService(pointRepository, pointHistoryRepository);
+    pointBalanceService = new PointBalanceService(pointRepository, pointHistoryRepository, pointPolicyValidator);
 
     pointRepository.save(new Point(1L, BigDecimal.ZERO));
   }

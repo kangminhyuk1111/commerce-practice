@@ -14,10 +14,12 @@ public class PointBalanceService {
 
   private final PointRepository pointRepository;
   private final PointHistoryRepository pointHistoryRepository;
+  private final PointPolicyValidator pointPolicyValidator;
 
-  public PointBalanceService(PointRepository pointRepository, PointHistoryRepository pointHistoryRepository) {
+  public PointBalanceService(PointRepository pointRepository, PointHistoryRepository pointHistoryRepository, PointPolicyValidator pointPolicyValidator) {
     this.pointRepository = pointRepository;
     this.pointHistoryRepository = pointHistoryRepository;
+    this.pointPolicyValidator = pointPolicyValidator;
   }
 
   // 포인트 추가
@@ -36,6 +38,9 @@ public class PointBalanceService {
   @Transactional
   public void useBalance(Long userId, BigDecimal amount) {
     final Point point = pointRepository.findByUserIdWithLock(userId);
+
+    // 포인트가 기준점 이하로 남았을 시 사용이 불가능
+    pointPolicyValidator.isUsable(point);
 
     point.use(amount);
 
