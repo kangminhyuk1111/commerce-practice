@@ -22,7 +22,10 @@ public enum ErrorType {
 
   POINT_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.POINT_001, "존재하지 않는 포인트 계좌 입니다."),
   POINT_BALANCE_LOW(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.POINT_002, "포인트가 부족합니다."),
-  POINT_BELOW_MINIMUM_THRESHOLD(HttpStatus.BAD_REQUEST, ErrorCode.POINT_003, "포인트는 최소 1000원이 넘어야 사용이 가능합니다.");
+  POINT_BELOW_MINIMUM_THRESHOLD(HttpStatus.BAD_REQUEST, ErrorCode.POINT_003, "포인트는 최소 1000원이 넘어야 사용이 가능합니다."),
+
+  COUPON_NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.E404, "존재하지 않는 쿠폰입니다."),
+  COUPON_ALREADY_DOWNLOADED(HttpStatus.BAD_REQUEST, ErrorCode.E400, "쿠폰이 이미 다운로드 되어 있습니다.");
 
   private final HttpStatus status;
   private final ErrorCode code;

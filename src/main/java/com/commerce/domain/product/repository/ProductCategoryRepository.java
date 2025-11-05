@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProductCategoryRepository {
   List<ProductCategory> findByCategoryIdIn(Collection<Long> categoryIds);
+  List<ProductCategory> findByProductId(Long productId);
 }

@@ -19,4 +19,9 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
   public List<ProductCategory> findByCategoryIdIn(final Collection<Long> categoryIds) {
     return jpaProductCategoryRepository.findByCategoryIdIn(categoryIds);
   }
+
+  @Override
+  public List<ProductCategory> findByProductId(Long productId) {
+    return jpaProductCategoryRepository.findByProductId(productId);
+  }
 }
