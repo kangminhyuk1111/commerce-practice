@@ -18,6 +18,11 @@ public class FakeProductCategoryRepository implements ProductCategoryRepository 
         .toList();
   }
 
+  @Override
+  public List<ProductCategory> findByProductId(Long productId) {
+    return List.of();
+  }
+
   public <S extends ProductCategory> S save(S entity) {
     if (entity.getId() == null) {
       setId(entity, ++sequence);
