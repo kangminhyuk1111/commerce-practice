@@ -26,11 +26,11 @@ public class ProductCategory extends BaseEntity {
     this.category = category;
   }
 
-  public Long getProductId() {
-    return product.getId();
+  public Category getCategory() {
+    return category;
   }
 
-  public Long getCategoryId() {
-    return category.getId();
+  public Product getProduct() {
+    return product;
   }
 }

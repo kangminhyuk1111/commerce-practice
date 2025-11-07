@@ -14,7 +14,7 @@ public class FakeProductCategoryRepository implements ProductCategoryRepository 
   @Override
   public List<ProductCategory> findByCategoryIdIn(Collection<Long> categoryIds) {
     return store.values().stream()
-        .filter(pc -> categoryIds.contains(pc.getCategoryId()))
+        .filter(pc -> categoryIds.contains(pc.getCategory().getId()))
         .toList();
   }
 

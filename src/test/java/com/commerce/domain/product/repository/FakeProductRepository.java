@@ -49,6 +49,11 @@ public class FakeProductRepository implements ProductRepository {
   }
 
   @Override
+  public List<Product> findAllById(Collection<Long> ids) {
+    return List.of();
+  }
+
+  @Override
   public Optional<Product> findById(final Long id) {
     return Optional.of(store.get(id));
   }

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReviewRepository {
   Page<Review> findByReviewTargetTypeAndTargetId(ReviewTargetType targetType, Long targetId, Pageable pageable);
-  List<Review> findByProductId(Long productId);
+  List<Review> findByTargetId(Long productId);
   Optional<Review> findByIdAndUserId(Long reviewId, Long userId);
   Boolean existByReviewKey(String reviewKey);
   Review save(Review review);

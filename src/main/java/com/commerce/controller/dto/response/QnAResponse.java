@@ -1,4 +1,4 @@
-package com.commerce.controller.dto;
+package com.commerce.controller.dto.response;
 
 import com.commerce.domain.qna.domain.QnA;
 

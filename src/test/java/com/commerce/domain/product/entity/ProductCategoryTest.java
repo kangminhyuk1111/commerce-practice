@@ -24,8 +24,8 @@ class ProductCategoryTest {
       ProductCategory productCategory = new ProductCategory(product, category);
 
       // then
-      assertThat(productCategory.getProductId()).isEqualTo(product.getId());
-      assertThat(productCategory.getCategoryId()).isEqualTo(category.getId());
+      assertThat(productCategory.getProduct().getId()).isEqualTo(product.getId());
+      assertThat(productCategory.getCategory().getId()).isEqualTo(category.getId());
     }
   }
 }
