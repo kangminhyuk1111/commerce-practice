@@ -36,7 +36,7 @@ public class FakeReviewRepository implements ReviewRepository {
   }
 
   @Override
-  public List<Review> findByProductId(Long productId) {
+  public List<Review> findByTargetId(Long productId) {
     return reviews.values().stream()
         .filter(review -> review.getTargetId().equals(productId))
         .collect(Collectors.toList());

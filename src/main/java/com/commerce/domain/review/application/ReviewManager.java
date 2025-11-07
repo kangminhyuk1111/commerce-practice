@@ -26,7 +26,7 @@ public class ReviewManager {
   }
 
   public List<Review> findByProductId(final Long productId) {
-    return reviewRepository.findByProductId(productId);
+    return reviewRepository.findByTargetId(productId);
   }
 
   public Long add(final ReviewTarget target, final ReviewContent content, final ReviewKey key) {

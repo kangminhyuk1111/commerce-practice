@@ -35,7 +35,7 @@ public class ProductService {
     final List<ProductCategory> productCategories = productCategoryRepository.findByCategoryIdIn(categoryIds);
 
     List<Long> productIds = productCategories.stream()
-        .map(ProductCategory::getProductId)
+        .map(productCategory -> productCategory.getProduct().getId())
         .distinct()
         .toList();
 

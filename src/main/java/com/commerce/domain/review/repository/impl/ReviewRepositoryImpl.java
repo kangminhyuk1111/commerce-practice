@@ -24,8 +24,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
   }
 
   @Override
-  public List<Review> findByProductId(final Long productId) {
-    return jpaReviewRepository.findByProductId(productId);
+  public List<Review> findByTargetId(final Long productId) {
+    return jpaReviewRepository.findByTargetId(productId);
   }
 
   @Override

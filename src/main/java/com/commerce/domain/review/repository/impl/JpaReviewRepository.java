@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaReviewRepository extends JpaRepository<Review, Long> {
-  List<Review> findByProductId(Long productId);
+  List<Review> findByTargetId(Long productId);
   Boolean existsByReviewKey(String reviewKey);
   Optional<Review> findByIdAndUserId(Long id, Long userId);
   Page<Review> findByReviewTargetTypeAndTargetId(ReviewTargetType reviewTargetType, Long targetId, Pageable pageable);

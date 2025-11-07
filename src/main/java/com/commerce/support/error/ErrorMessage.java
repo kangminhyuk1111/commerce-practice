@@ -6,7 +6,7 @@ public class ErrorMessage {
   private final String message;
 
   public ErrorMessage(final ErrorType errorType) {
-    this.code = errorType.getCode().name();
+    this.code = errorType.getStatus().name();
     this.message = errorType.getMessage();
   }
 

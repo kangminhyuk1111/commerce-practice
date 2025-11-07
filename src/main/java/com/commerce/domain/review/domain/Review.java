@@ -10,7 +10,7 @@ import jakarta.persistence.Enumerated;
 @Entity
 public class Review extends BaseEntity {
 
-  @Column(name = "target_id", nullable = false)
+  @Column(nullable = false)
   private Long targetId;
 
   @Column(nullable = false, unique = true)

@@ -1,7 +1,7 @@
 package com.commerce.controller.v1;
 
-import com.commerce.controller.dto.DeleteQuestionRequest;
-import com.commerce.controller.dto.QnAResponse;
+import com.commerce.controller.dto.request.DeleteQuestionRequest;
+import com.commerce.controller.dto.response.QnAResponse;
 import com.commerce.controller.dto.request.AddQuestionRequest;
 import com.commerce.controller.dto.request.PageSize;
 import com.commerce.controller.dto.request.UpdateQuestionRequest;
