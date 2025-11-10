@@ -23,15 +23,23 @@ public class Product extends BaseEntity {
 
   private String detailedDescription;
 
+  @Column(nullable = false)
+  private Integer stock;
+
   public Product() {
   }
 
-  public Product(final String name, final String description, final BigDecimal price, final String imagePathUrl, final String detailedDescription) {
+  public Product(final String name, final String description, final BigDecimal price, final String imagePathUrl, final String detailedDescription, final Integer stock) {
     this.name = name;
     this.description = description;
     this.price = price;
     this.imagePathUrl = imagePathUrl;
     this.detailedDescription = detailedDescription;
+    this.stock = stock;
+  }
+
+  public void decreaseStock(Integer quantity) {
+    this.stock = this.stock - quantity;
   }
 
   public String getName() {
@@ -52,5 +60,9 @@ public class Product extends BaseEntity {
 
   public String getDetailedDescription() {
     return detailedDescription;
+  }
+
+  public Integer getStock() {
+    return stock;
   }
 }

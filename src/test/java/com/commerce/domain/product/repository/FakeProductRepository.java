@@ -58,6 +58,11 @@ public class FakeProductRepository implements ProductRepository {
     return Optional.of(store.get(id));
   }
 
+  @Override
+  public Optional<Product> findByIdWithLock(Long productId) {
+    return Optional.empty();
+  }
+
   public <S extends Product> S save(S entity) {
     if (entity.getId() == null) {
       setId(entity, ++sequence);
