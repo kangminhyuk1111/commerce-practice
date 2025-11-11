@@ -1,20 +1,19 @@
 package com.commerce.controller.v1;
 
 import com.commerce.controller.dto.request.CreateOrderFromCartRequest;
+import com.commerce.controller.dto.request.CreateOrderRequest;
 import com.commerce.controller.dto.response.CreateOrderResponse;
 import com.commerce.controller.dto.response.OrderCheckoutResponse;
 import com.commerce.domain.cart.application.CartService;
 import com.commerce.domain.cart.domain.Cart;
 import com.commerce.domain.coupon.application.CouponService;
-import com.commerce.domain.coupon.domain.OwnedCoupon;
 import com.commerce.domain.order.application.OrderService;
-import com.commerce.domain.order.domain.OrderItem;
+import com.commerce.domain.order.domain.Order;
 import com.commerce.domain.order.domain.OrderRecord;
 import com.commerce.domain.order.domain.OrderStatus;
 import com.commerce.domain.point.application.PointService;
 import com.commerce.domain.point.domain.Point;
 import com.commerce.support.response.ApiResponse;
-import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,7 +67,7 @@ public class OrderController {
       Long userId,
       @PathVariable String orderKey
   ) {
-    OrderRecord order = orderService.getOrder(userId, orderKey, OrderStatus.PENDING);
+    Order order = orderService.getOrder(userId, orderKey, OrderStatus.PENDING);
     Point point = pointService.findPoint(userId);
 
     return ApiResponse.success(OrderCheckoutResponse.of(order, point));

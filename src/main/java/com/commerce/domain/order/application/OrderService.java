@@ -4,12 +4,10 @@ import com.commerce.domain.order.domain.NewOrder;
 import com.commerce.domain.order.domain.NewOrderItem;
 import com.commerce.domain.order.domain.Order;
 import com.commerce.domain.order.domain.OrderItem;
-import com.commerce.domain.order.domain.OrderRecord;
 import com.commerce.domain.order.domain.OrderStatus;
-import com.commerce.domain.order.repository.OrderItemRepository;
 import com.commerce.domain.order.repository.OrderRepository;
 import com.commerce.domain.product.entity.Product;
-import com.commerce.domain.product.repository.ProductRepository;
+import com.commerce.domain.product.service.ProductService;
 import com.commerce.support.error.CoreException;
 import com.commerce.support.error.ErrorType;
 import java.math.BigDecimal;
@@ -24,17 +22,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OrderService {
 
-  private final ProductRepository productRepository;
+  private final ProductService productService;
   private final OrderKeyGenerator orderKeyGenerator;
   private final OrderRepository orderRepository;
-  private final OrderItemRepository orderItemRepository;
 
-  public OrderService(ProductRepository productRepository, OrderKeyGenerator orderKeyGenerator,
-      OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
-    this.productRepository = productRepository;
+  public OrderService(ProductService productService, OrderKeyGenerator orderKeyGenerator,
+      OrderRepository orderRepository) {
+    this.productService = productService;
     this.orderKeyGenerator = orderKeyGenerator;
     this.orderRepository = orderRepository;
-    this.orderItemRepository = orderItemRepository;
   }
 
   /*
@@ -42,49 +38,52 @@ public class OrderService {
    * */
   @Transactional
   public String createOrder(Long userId, NewOrder newOrder) {
-    Set<Long> orderProductIds = newOrder.items().stream().map(NewOrderItem::productId)
+    Set<Long> orderProductIds = newOrder.items().stream()
+        .map(NewOrderItem::productId)
         .collect(Collectors.toSet());
 
-    Map<Long, Product> productsMap = productRepository.findAllById(orderProductIds)
-        .stream()
-        .collect(Collectors.toMap(
-            Product::getId,
-            product -> product
-        ));
+    Map<Long, Product> productsMap = productService.findAllById(orderProductIds).stream()
+        .collect(Collectors.toMap(Product::getId, product -> product));
 
     validateCreateOrder(newOrder, productsMap, orderProductIds);
 
     BigDecimal totalPrice = calculateTotalPrice(newOrder, productsMap);
 
-    Order order = new Order(
-        orderKeyGenerator.generate(userId), userId, totalPrice, OrderStatus.PENDING
-    );
-
-    Order savedOrder = orderRepository.save(order);
-
-    orderItemRepository.saveAll(newOrder.items().stream()
+    List<OrderItem> orderItems = newOrder.items().stream()
         .map(item -> {
           Product product = productsMap.get(item.productId());
           return new OrderItem(
               product.getId(),
-              savedOrder.getId(),
+              null,
               product.getName(),
               product.getPrice(),
               item.quantity(),
               product.getPrice().multiply(BigDecimal.valueOf(item.quantity()))
           );
         })
-        .toList());
+        .toList();
+
+    Order order = new Order(
+        orderKeyGenerator.generate(userId),
+        userId,
+        totalPrice,
+        OrderStatus.PENDING,
+        orderItems
+    );
+
+    Order savedOrder = orderRepository.save(order);
 
     for (NewOrderItem item : newOrder.items()) {
-      Product product = productsMap.get(item.productId());
-      product.decreaseStock(item.quantity());
+      productsMap.get(item.productId()).decreaseStock(item.quantity());
     }
 
-    return order.getOrderKey();
+    return savedOrder.getOrderKey();
   }
 
-  public OrderRecord getOrder(Long userId, String orderKey, OrderStatus orderStatus) {
+  /*
+   * 주문 조회
+   * */
+  public Order getOrder(Long userId, String orderKey, OrderStatus orderStatus) {
     if (!orderStatus.equals(OrderStatus.PENDING)) {
       throw new CoreException(ErrorType.ORDER_STATUS_NOT_PENDING);
     }
@@ -92,24 +91,63 @@ public class OrderService {
     Order order = orderRepository.findByOrderKey(orderKey)
         .orElseThrow(() -> new CoreException(ErrorType.ORDER_NOT_FOUND));
 
-    if(!Objects.equals(order.getUserId(), userId)) {
+    if (!Objects.equals(order.getUserId(), userId)) {
       throw new CoreException(ErrorType.ORDER_USER_INCORRECT);
     }
 
-    List<OrderItem> items = orderItemRepository.findByOrderId(order.getId());
+    List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(order.getId());
 
-    if (items.isEmpty()) {
+    if (orderItems.isEmpty()) {
       throw new CoreException(ErrorType.CART_ITEM_NOT_FOUND);
     }
 
-    return new OrderRecord(
-        order.getId(),
+    return new Order(
         order.getOrderKey(),
         userId,
         order.getTotalPrice(),
         order.getOrderStatus(),
-        items
+        orderItems
     );
+  }
+
+  /*
+   * 유저 ID로 주문 조회
+   * */
+  public List<Order> getOrders(Long userId) {
+    List<Order> orders = orderRepository.findByUserId(userId);
+
+    if (orders.isEmpty()) {
+      throw new CoreException(ErrorType.ORDER_NOT_FOUND);
+    }
+
+    return orders;
+  }
+
+  /*
+  * 주문 취소(상품 재고 복구)
+  * */
+  @Transactional
+  public void cancelOrder(String orderKey) {
+    Order order = orderRepository.findByOrderKey(orderKey)
+        .orElseThrow(() -> new CoreException(ErrorType.ORDER_NOT_FOUND));
+
+    if(!order.isCancellable()) {
+      throw new CoreException(ErrorType.ORDER_CAN_NOT_CANCEL);
+    }
+
+    Set<Long> productIds = order.getItems().stream()
+        .map(OrderItem::getProductId)
+        .collect(Collectors.toSet());
+
+    Map<Long, Product> productsMap = productService.findAllById(productIds).stream()
+        .collect(Collectors.toMap(Product::getId, product -> product));
+
+    order.getItems().forEach(orderItem -> {
+      Product product = productsMap.get(orderItem.getProductId());
+      product.increaseStock(orderItem.getQuantity());
+    });
+
+    order.cancel();
   }
 
   private BigDecimal calculateTotalPrice(NewOrder newOrder, Map<Long, Product> productsMap) {
@@ -127,7 +165,7 @@ public class OrderService {
   private void validateCreateOrder(NewOrder newOrder, Map<Long, Product> productsMap,
       Set<Long> orderProductIds) {
     if (productsMap.isEmpty()) {
-      throw new CoreException(ErrorType.CART_IS_EMPTY);
+      throw new CoreException(ErrorType.PRODUCT_NOT_FOUND);
     }
 
     if (!productsMap.keySet().equals(orderProductIds)) {

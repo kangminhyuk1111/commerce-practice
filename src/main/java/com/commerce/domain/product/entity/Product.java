@@ -1,6 +1,8 @@
 package com.commerce.domain.product.entity;
 
 import com.commerce.support.entity.BaseEntity;
+import com.commerce.support.error.CoreException;
+import com.commerce.support.error.ErrorType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -39,7 +41,14 @@ public class Product extends BaseEntity {
   }
 
   public void decreaseStock(Integer quantity) {
+    if(this.stock < quantity) {
+      throw new CoreException(ErrorType.OUT_OF_STOCK);
+    }
     this.stock = this.stock - quantity;
+  }
+
+  public void increaseStock(Integer quantity) {
+    this.stock = this.stock + quantity;
   }
 
   public String getName() {

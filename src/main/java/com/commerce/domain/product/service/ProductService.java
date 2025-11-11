@@ -6,7 +6,11 @@ import com.commerce.domain.product.repository.ProductCategoryRepository;
 import com.commerce.domain.product.repository.ProductRepository;
 import com.commerce.support.error.CoreException;
 import com.commerce.support.error.ErrorType;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,5 +52,9 @@ public class ProductService {
 
   public Product findProductById(final Long productId) {
     return productRepository.findById(productId).orElseThrow(() -> new CoreException(ErrorType.PRODUCT_NOT_FOUND));
+  }
+
+  public List<Product> findAllById(Collection<Long> orderProductIds) {
+    return productRepository.findAllById(orderProductIds);
   }
 }

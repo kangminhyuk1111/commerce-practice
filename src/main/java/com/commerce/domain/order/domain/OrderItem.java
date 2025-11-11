@@ -31,8 +31,7 @@ public class OrderItem extends BaseEntity {
   public OrderItem() {
   }
 
-  public OrderItem(Long productId, Long orderId, String productName, BigDecimal productPrice,
-      Integer quantity, BigDecimal totalPrice) {
+  public OrderItem(Long productId, Long orderId, String productName, BigDecimal productPrice, Integer quantity, BigDecimal totalPrice) {
     this.productId = productId;
     this.orderId = orderId;
     this.productName = productName;

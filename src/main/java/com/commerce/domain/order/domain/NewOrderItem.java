@@ -4,5 +4,4 @@ public record NewOrderItem(
     Long productId,
     Integer quantity
 ) {
-
 }

@@ -35,7 +35,8 @@ public enum ErrorType {
   ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 주문 입니다."),
   ORDER_STATUS_NOT_PENDING(HttpStatus.BAD_REQUEST, "이미 처리된 주문입니다."),
   ORDER_USER_INCORRECT(HttpStatus.BAD_REQUEST, "주문자 정보가 일치하지 않습니다."),
-  ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "주문 상품 정보가 존재하지 않습니다.");
+  ORDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "주문 상품 정보가 존재하지 않습니다."),
+  ORDER_CAN_NOT_CANCEL(HttpStatus.BAD_REQUEST, "주문을 취소할 수 없는 상태입니다.");
 
   private final HttpStatus status;
   private final String message;

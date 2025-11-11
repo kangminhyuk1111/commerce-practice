@@ -8,7 +8,6 @@ import com.commerce.domain.coupon.repository.OwnedCouponRepository;
 import com.commerce.support.error.CoreException;
 import com.commerce.support.error.ErrorType;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
