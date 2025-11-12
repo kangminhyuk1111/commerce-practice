@@ -54,6 +54,10 @@ public class Order extends BaseEntity {
     this.shippingAddress = shippingAddress;
   }
 
+  public void updateStatus(OrderStatus orderStatus) {
+    this.orderStatus = orderStatus;
+  }
+
   public void cancel() {
     this.orderStatus = OrderStatus.CANCELLED;
   }

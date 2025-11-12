@@ -67,7 +67,7 @@ public class OrderController {
       Long userId,
       @PathVariable String orderKey
   ) {
-    Order order = orderService.getOrder(userId, orderKey, OrderStatus.PENDING);
+    Order order = orderService.getOrder(userId, orderKey);
     Point point = pointService.findPoint(userId);
 
     return ApiResponse.success(OrderCheckoutResponse.of(order, point));

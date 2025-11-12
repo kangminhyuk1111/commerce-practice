@@ -83,11 +83,7 @@ public class OrderService {
   /*
    * 주문 조회
    * */
-  public Order getOrder(Long userId, String orderKey, OrderStatus orderStatus) {
-    if (!orderStatus.equals(OrderStatus.PENDING)) {
-      throw new CoreException(ErrorType.ORDER_STATUS_NOT_PENDING);
-    }
-
+  public Order getOrder(Long userId, String orderKey) {
     Order order = orderRepository.findByOrderKey(orderKey)
         .orElseThrow(() -> new CoreException(ErrorType.ORDER_NOT_FOUND));
 
@@ -135,16 +131,8 @@ public class OrderService {
       throw new CoreException(ErrorType.ORDER_CAN_NOT_CANCEL);
     }
 
-    Set<Long> productIds = order.getItems().stream()
-        .map(OrderItem::getProductId)
-        .collect(Collectors.toSet());
-
-    Map<Long, Product> productsMap = productService.findAllById(productIds).stream()
-        .collect(Collectors.toMap(Product::getId, product -> product));
-
     order.getItems().forEach(orderItem -> {
-      Product product = productsMap.get(orderItem.getProductId());
-      product.increaseStock(orderItem.getQuantity());
+      productService.increaseStock(orderItem.getProductId(), orderItem.getQuantity());
     });
 
     order.cancel();

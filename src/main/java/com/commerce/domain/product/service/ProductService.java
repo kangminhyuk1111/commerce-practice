@@ -22,7 +22,8 @@ public class ProductService {
   private final ProductRepository productRepository;
   private final ProductCategoryRepository productCategoryRepository;
 
-  public ProductService(final ProductRepository productRepository, final ProductCategoryRepository productCategoryRepository) {
+  public ProductService(final ProductRepository productRepository,
+      final ProductCategoryRepository productCategoryRepository) {
     this.productRepository = productRepository;
     this.productCategoryRepository = productCategoryRepository;
   }
@@ -31,12 +32,14 @@ public class ProductService {
       cacheNames = "products",
       key = "T(String).format('%s-%s-%s', #categoryIds.stream().sorted().toList(), #pageable.offset, #pageable.pageSize)"
   )
-  public Page<Product> findProductsByCategoryIds(final List<Long> categoryIds, final Pageable pageable) {
+  public Page<Product> findProductsByCategoryIds(final List<Long> categoryIds,
+      final Pageable pageable) {
     if (categoryIds == null || categoryIds.isEmpty()) {
       return productRepository.findAll(pageable);
     }
 
-    final List<ProductCategory> productCategories = productCategoryRepository.findByCategoryIdIn(categoryIds);
+    final List<ProductCategory> productCategories = productCategoryRepository.findByCategoryIdIn(
+        categoryIds);
 
     List<Long> productIds = productCategories.stream()
         .map(productCategory -> productCategory.getProduct().getId())
@@ -51,10 +54,18 @@ public class ProductService {
   }
 
   public Product findProductById(final Long productId) {
-    return productRepository.findById(productId).orElseThrow(() -> new CoreException(ErrorType.PRODUCT_NOT_FOUND));
+    return productRepository.findById(productId)
+        .orElseThrow(() -> new CoreException(ErrorType.PRODUCT_NOT_FOUND));
   }
 
   public List<Product> findAllById(Collection<Long> orderProductIds) {
     return productRepository.findAllById(orderProductIds);
+  }
+
+  public void increaseStock(Long productId, Integer quantity) {
+    Product product = productRepository.findById(productId)
+        .orElseThrow(() -> new CoreException(ErrorType.PRODUCT_NOT_FOUND));
+
+    product.increaseStock(quantity);
   }
 }

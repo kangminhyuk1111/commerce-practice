@@ -61,7 +61,7 @@ class OrderServiceTest {
 
       // when
       String orderKey = orderService.createOrder(userId, newOrder);
-      Order order = orderService.getOrder(userId, orderKey, OrderStatus.PENDING);
+      Order order = orderService.getOrder(userId, orderKey);
 
       // then
       assertAll(() -> {
@@ -79,7 +79,7 @@ class OrderServiceTest {
 
       // when
       String orderKey = orderService.createOrder(userId, newOrder);
-      Order order = orderService.getOrder(userId, orderKey, OrderStatus.PENDING);
+      Order order = orderService.getOrder(userId, orderKey);
 
       // then
       assertAll(() -> {
@@ -223,7 +223,7 @@ class OrderServiceTest {
     void 주문을_취소가_성공할시_재고가_복구된다() {
       // given
       Long userId = 1L;
-      Order order = orderService.getOrder(userId, orderKey, OrderStatus.PENDING);
+      Order order = orderService.getOrder(userId, orderKey);
 
       // when
       orderService.cancelOrder(orderKey);
@@ -235,6 +235,20 @@ class OrderServiceTest {
         assertThat(productRepository.findById(1L).get().getStock()).isEqualTo(10);
         assertThat(productRepository.findById(2L).get().getStock()).isEqualTo(10);
       });
+    }
+
+    @Test
+    void 주문_취소가_불가능한_상태인_경우_예외가_발생한다() {
+      // given
+      Long userId = 1L;
+      Order order = orderService.getOrder(userId, orderKey);
+      order.updateStatus(OrderStatus.SHIPPED);
+      orderRepository.save(order);
+
+      // when & then
+      assertThatThrownBy(() -> orderService.cancelOrder(orderKey))
+          .isInstanceOf(CoreException.class)
+          .hasMessage(ErrorType.ORDER_CAN_NOT_CANCEL.getMessage());
     }
   }
 
